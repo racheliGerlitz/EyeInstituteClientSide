@@ -197,6 +197,7 @@ import { useDispatch } from "react-redux";
 import { signUpClient } from "../../redux/thunk/userthunks";
 import { Card, CardContent, TextField, Button, Typography, Checkbox, FormControlLabel } from "@mui/material";
 import { Box } from "@mui/system";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = ({ onSignUpSuccess }) => {
   const [client, setClient] = useState({ 
@@ -219,10 +220,9 @@ const SignUp = ({ onSignUpSuccess }) => {
     houseNumber:""
     }
     );
-    const [userDetails, setUserDetails] = useState(null); // State to store user details
+
   
-  
-  
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
 
@@ -251,8 +251,8 @@ const SignUp = ({ onSignUpSuccess }) => {
       const result = await dispatch(signUpClient(newUser)).unwrap();
       alert("Registration successful!");
       setUserDetails(result); // Store user details in state
-
       onSignUpSuccess(result.id); // Pass the client ID to the parent or global state
+      navigate("/makeAnAppointment/SelectAnAppointment");
     } catch (err) {
       setError("Registration failed. Please try again.");
     }

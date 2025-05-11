@@ -123,6 +123,8 @@ import SelectAnAppointment from './components/MakeAnAppointment/SelectAnAppointm
 import SelectADoctor from './components/MakeAnAppointment/SelectADoctor';
 import SelectDate from './components/MakeAnAppointment/SelectDate';
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
 
 function App() {
   const [clientId, setClientId] = useState(null); // Global state for storing client ID
@@ -142,42 +144,14 @@ function App() {
 
       <main className="main-content">
         <Routes>
-          {/* Home Page */}
           <Route path="/" element={<HomePage />} />
-
-          {/* About Page */}
           <Route path="/About" element={<About />} />
-
-          {/* Login Page */}
-          <Route
-            path="/MakeAnAppointment"
-            element={<Login onLoginSuccess={(id) => setClientId(id)} />}
-          />
-
-          {/* Sign-Up Page */}
-          <Route
-            path="/SignUp"
-            element={<SignUp onSignUpSuccess={(id) => setClientId(id)} />}
-          />
-
-          {/* Select Appointment Page */}
-          <Route
-            path="/SelectAnAppointment"
-            element={
-              clientId ? <SelectAnAppointment /> : <Login onLoginSuccess={(id) => setClientId(id)} />
-            }
-          />
-
-          {/* Select Doctor Page */}
-          <Route
-            path="/SelectADoctor"
-            element={
-              clientId ? <SelectADoctor /> : <Login onLoginSuccess={(id) => setClientId(id)} />
-            }
-          />
-
-          {/* View Queue List Page */}
+          <Route path="/MakeAnAppointment" element={clientId? <Navigate to="/MakeAnAppointment/SelectAnAppointment" />:<Login onLoginSuccess={(id) => setClientId(id)} />}/>
+          <Route path="/MakeAnAppointment/SignUp" element={<SignUp onSignUpSuccess={(id) => setClientId(id)} />}/>
+          <Route path="/MakeAnAppointment/SelectAnAppointment" element={clientId ? <SelectAnAppointment /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
+          <Route path="/MakeAnAppointment/SelectADoctor" element={clientId ? <SelectADoctor /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
           <Route path="/ViewTheQueueList" element={<ViewTheQueueList />} />
+          <Route path="/MakeAnAppointment/SelectDate" element={clientId ? <SelectDate /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
         </Routes>
       </main>
     </BrowserRouter>

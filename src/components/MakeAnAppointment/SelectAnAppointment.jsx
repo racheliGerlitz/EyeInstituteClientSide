@@ -7,12 +7,12 @@ const SelectAnAppointment = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const userDetails = useSelector((state) => state.user.user); // Access user details from Redux
   const appointmentOptions = [
-    { id: 1, title: 'בדיקת ראייה כללית', imageUrl: '/images/eye_exam.jpg' },
-    { id: 2, title: 'בדיקת התאמה לפני ניתוחי עיניים', imageUrl: '/images/eye_surgery.jpg' },
-    { id: 3, title: 'טיפולים שונים בעיניים – דלקות, יובש, גלאוקומה ועוד', imageUrl: '/images/eye_treatment.jpg' },
-    { id: 4, title: 'ייעוץ עם מומחה', imageUrl: '/images/expert_advice.jpg' },
-    { id: 5, title: 'ניתוחי קטרקט', imageUrl: '/images/cataract_surgery.jpg' },
-    { id: 6, title: 'ניתוחי לייזר להסרת משקפיים', imageUrl: '/images/laser_surgery.jpg' },
+    { id: 1, title: 'בדיקת ראייה כללית', imageUrl: '/images/eye_exam.jpg' ,value:"אופטומטריסט"},
+    { id: 2, title: 'בדיקת התאמה לפני ניתוחי עיניים', imageUrl: '/images/eye_surgery.jpg',value:"אופטומטריסט" },
+    { id: 3, title: 'טיפולים שונים בעיניים – דלקות, יובש, גלאוקומה ועוד', imageUrl: '/images/eye_treatment.jpg',value:"רופא" },
+    { id: 4, title: 'ייעוץ עם מומחה', imageUrl: '/images/expert_advice.jpg' ,value:"רופא"},
+    { id: 5, title: 'ניתוחי קטרקט', imageUrl: '/images/cataract_surgery.jpg',value:"קטרקט" },
+    { id: 6, title: 'ניתוחי לייזר להסרת משקפיים', imageUrl: '/images/laser_surgery.jpg',value:"לייזר" }
   ];
   const handleCardClick = (appointment) => {
     setSelectedAppointment(appointment);
@@ -44,7 +44,7 @@ const SelectAnAppointment = () => {
         <p>לא נמצאו פרטי משתמש.</p>
       )}
 
-      <Box display="flex" flexWrap="nowrap" justifyContent="center">
+      <Box display="flex"  justifyContent="center">
         {appointmentOptions.map((option) => (
           <Card
             key={option.id}

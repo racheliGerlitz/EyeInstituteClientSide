@@ -251,12 +251,11 @@
 // };
 
 // export default Login;
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkClientExists } from "../../redux/thunk/userthunks"; // Adjusted the import path
-import { TextField, Button, Typography, Box, Card, CardContent } from "@mui/material";
-import SignUp from "./SignUP";
-import SelectAnAppointment from "./SelectAnAppointment";
+import { TextField, Button, Typography, Box} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Login = ({ onLoginSuccess }) => {
   const [id, setId] = useState(""); // State for the entered ID
@@ -265,6 +264,9 @@ const Login = ({ onLoginSuccess }) => {
   const [showAppointment, setShowAppointment] = useState(false); // State to show SelectAnAppointment
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.user); // Access Redux state
+const navigate = useNavigate();
+
+
 
   const handleLogin = async () => {
     console.log("user", { id });
@@ -275,17 +277,15 @@ const Login = ({ onLoginSuccess }) => {
         setUserDetails(result); // Store user details in state
         setShowAppointment(true); // Show the appointment component
         onLoginSuccess(result.id); // Pass the client ID to the parent or global state
+        navigate("/MakeAnAppointment/SelectAnAppointment"); 
       }
     } catch (err) {
       console.error("Login Error:", err); // Debugging: Log the error
       setShowSignUp(true); // Show the SignUp component if the user is not found
+      navigate("/MakeAnAppointment/SignUp");
     }
   };
 
-  const handleSignUpSuccess = (newUserDetails) => {
-    setUserDetails(newUserDetails); // Store the new user details
-    setShowAppointment(true); // Show the appointment component
-  };
 
   return (
     <Box
@@ -296,9 +296,6 @@ const Login = ({ onLoginSuccess }) => {
       sx={{ backgroundColor: "#e3f2fd" }}
     >
       <Box sx={{ width: "400px", padding: "2rem", boxShadow: 3, borderRadius: "10px", backgroundColor: "#fff" }}>
-        {showAppointment ? (
-          <SelectAnAppointment  /> // Render SelectAnAppointment if login or sign-up is successful
-        ) : !userDetails && !showSignUp ? (
           <>
             <Typography variant="h5" align="center" gutterBottom>
               כניסה למערכת
@@ -329,35 +326,6 @@ const Login = ({ onLoginSuccess }) => {
               כניסה
             </Button>
           </>
-        ) : showSignUp ? (
-          <SignUp onSignUpSuccess={handleSignUpSuccess} /> // Pass handleSignUpSuccess to SignUp
-        ) : (
-          <Card sx={{ padding: "2rem", boxShadow: 3, borderRadius: "10px", backgroundColor: "#e3f2fd" }}>
-            <CardContent>
-              <Typography variant="h5" align="center" gutterBottom sx={{ color: "#003d5b", fontWeight: "bold" }}>
-                ברוך הבא, {userDetails.name}!
-              </Typography>
-              <Typography variant="body1" align="center" sx={{ marginBottom: "1rem" }}>
-                כתובת מייל: {userDetails.email}
-              </Typography>
-              <Typography variant="body1" align="center" sx={{ marginBottom: "1rem" }}>
-                מספר טלפון: {userDetails.phoneNumber}
-              </Typography>
-              <Typography variant="body1" align="center" sx={{ marginBottom: "1rem" }}>
-                גיל: {userDetails.age}
-              </Typography>
-              <Typography variant="body1" align="center" sx={{ marginBottom: "1rem" }}>
-                מספר בעין שמאל: {userDetails.leftEyeNumber}
-              </Typography>
-              <Typography variant="body1" align="center" sx={{ marginBottom: "1rem" }}>
-                מספר בעין ימין: {userDetails.rightEyeNumber}
-              </Typography>
-              <Typography variant="body1" align="center" sx={{ marginBottom: "1rem" }}>
-                צילינדר: {userDetails.cylinder}
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
       </Box>
     </Box>
   );
