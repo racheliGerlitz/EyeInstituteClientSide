@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {setSpecialization} from '../../redux/doctorsSlice';
+import { useNavigate } from 'react-router-dom';
+import { fetchDoctorsBySpecialization } from '../../redux/thunk/doctorsThunk'; // Import the action to fetch doctors
 
 const SelectAnAppointment = () => {
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const userDetails = useSelector((state) => state.user.user); // Access user details from Redux
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const appointmentOptions = [
     { id: 1, title: 'בדיקת ראייה כללית', imageUrl: '/images/eye_exam.jpg' ,value:"אופטומטריסט"},
     { id: 2, title: 'בדיקת התאמה לפני ניתוחי עיניים', imageUrl: '/images/eye_surgery.jpg',value:"אופטומטריסט" },
@@ -16,7 +21,12 @@ const SelectAnAppointment = () => {
   ];
   const handleCardClick = (appointment) => {
     setSelectedAppointment(appointment);
+    console.log('Selected appointment:', appointment.value);
+    dispatch(setSpecialization(appointment.value)); 
+   dispatch(fetchDoctorsBySpecialization(appointment.value));
+
   };
+
 
   return (
     <Box
@@ -106,7 +116,8 @@ const SelectAnAppointment = () => {
                 backgroundColor: '#1565c0',
               },
             }}
-            onClick={() => alert('ממשיך להירשם לתור')}
+            onClick={() => navigate('/MakeAnAppointment/SelectADoctor')}
+
           >
             המשך לרישום
           </Button>

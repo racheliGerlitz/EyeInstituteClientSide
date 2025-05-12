@@ -149,7 +149,7 @@ function App() {
           <Route path="/MakeAnAppointment" element={clientId? <Navigate to="/MakeAnAppointment/SelectAnAppointment" />:<Login onLoginSuccess={(id) => setClientId(id)} />}/>
           <Route path="/MakeAnAppointment/SignUp" element={<SignUp onSignUpSuccess={(id) => setClientId(id)} />}/>
           <Route path="/MakeAnAppointment/SelectAnAppointment" element={clientId ? <SelectAnAppointment /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
-          <Route path="/MakeAnAppointment/SelectADoctor" element={clientId ? <SelectADoctor /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
+          <Route path="/MakeAnAppointment/SelectADoctor" element={clientId ? <SelectADoctor  /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
           <Route path="/ViewTheQueueList" element={<ViewTheQueueList />} />
           <Route path="/MakeAnAppointment/SelectDate" element={clientId ? <SelectDate /> : <Login onLoginSuccess={(id) => setClientId(id)} />}/>
         </Routes>

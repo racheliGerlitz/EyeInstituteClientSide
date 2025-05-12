@@ -251,11 +251,12 @@
 // };
 
 // export default Login;
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { checkClientExists } from "../../redux/thunk/userthunks"; // Adjusted the import path
 import { TextField, Button, Typography, Box} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Wellcome from "./Wellcome";
 
 const Login = ({ onLoginSuccess }) => {
   const [id, setId] = useState(""); // State for the entered ID
@@ -266,7 +267,14 @@ const Login = ({ onLoginSuccess }) => {
   const { status, error } = useSelector((state) => state.user); // Access Redux state
 const navigate = useNavigate();
 
-
+useEffect(() => {
+  if (showAppointment) {
+    const timer = setTimeout(() => {
+      navigate("/MakeAnAppointment/SelectAnAppointment");
+    }, 2000);
+    return () => clearTimeout(timer);
+  }
+}, [showAppointment, navigate]);
 
   const handleLogin = async () => {
     console.log("user", { id });
@@ -276,8 +284,8 @@ const navigate = useNavigate();
       if (result) {
         setUserDetails(result); // Store user details in state
         setShowAppointment(true); // Show the appointment component
+        console.log("showAppointment:", showAppointment, "userDetails:", userDetails);
         onLoginSuccess(result.id); // Pass the client ID to the parent or global state
-        navigate("/MakeAnAppointment/SelectAnAppointment"); 
       }
     } catch (err) {
       console.error("Login Error:", err); // Debugging: Log the error
@@ -297,6 +305,7 @@ const navigate = useNavigate();
     >
       <Box sx={{ width: "400px", padding: "2rem", boxShadow: 3, borderRadius: "10px", backgroundColor: "#fff" }}>
           <>
+          
             <Typography variant="h5" align="center" gutterBottom>
               כניסה למערכת
             </Typography>
@@ -325,9 +334,13 @@ const navigate = useNavigate();
             >
               כניסה
             </Button>
+             {showAppointment && <Wellcome userDetails={userDetails} />}
           </>
       </Box>
+      
     </Box>
+   
+
   );
 };
 
