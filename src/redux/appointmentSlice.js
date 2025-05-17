@@ -4,10 +4,15 @@ const appointmentSlice = createSlice({
     name: 'appointments',
     initialState: {
       appointments: [],
+      doctorid: null,
       loading: false,
       error: null,
     },
-    reducers: {},
+    reducers: {
+        setDoctorId: (state, action) => {
+          state.doctorid = action.payload;
+        },
+    },
     extraReducers: (builder) => {
       
   
@@ -27,5 +32,5 @@ const appointmentSlice = createSlice({
         });
     },
   });
-  
+  export const { setDoctorId } = appointmentSlice.actions;
   export default appointmentSlice.reducer;

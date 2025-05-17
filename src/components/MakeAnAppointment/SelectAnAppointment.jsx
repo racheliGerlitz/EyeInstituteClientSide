@@ -24,7 +24,6 @@ const SelectAnAppointment = () => {
     console.log('Selected appointment:', appointment.value);
     dispatch(setSpecialization(appointment.value)); 
    dispatch(fetchDoctorsBySpecialization(appointment.value));
-
   };
 
 

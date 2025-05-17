@@ -1,23 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Typography,Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDoctorsBySpecialization } from '../../redux/thunk/doctorsThunk'; // ודא שזה הנתיב הנכון
-
-const  SelectADoctor = () => {
-  // מערך רופאים לדוגמה
-  // const doctors = [
-  //   { id: 1, name: 'ד"ר יוסי כהן', imageUrl: '/images/optometrist-writing-clipboard.jpg' },
-  //   { id: 2, name: 'ד"ר מרים לוי', imageUrl: '/images/pointing-camera-choosing-you.jpg' },
-  //   { id: 3, name: 'ד"ר רן שמואל', imageUrl: '/images/portrait-eye-exam-arms-crossed-with-optometrist-man-his-office-healthcare-vision-improvement-medical-frame-glasses-with-happy-doctor-clinic-assessment-testing.jpg' },
-  //   { id: 4, name: 'ד"ר תמר ברק', imageUrl: '/images/senior-optician-examination-room.jpg' },
-  // ];
-
-
+import { fetchDoctorsBySpecialization } from '../../redux/thunk/doctorsThunk';
+import {fetchAvailableAppointments} from '../../redux/thunk/appointmentsthunk';
+import {setDoctorId} from '../../redux/appointmentSlice';
+import { useNavigate } from 'react-router-dom';
+const SelectADoctor = () => {
   const dispatch = useDispatch();
-  const  doctors  = useSelector((state) => state.doctors.doctors);
- const specialization=useSelector((state) => state.doctors.specialization);
-  const loading=useSelector((state) => state.doctors.loading);
+  const navigate = useNavigate();
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
+  const doctors = useSelector((state) => state.doctors.doctors);
+  const specialization = useSelector((state) => state.doctors.specialization);
+  const loading = useSelector((state) => state.doctors.loading);
 
   console.log("Specialization from Redux:", specialization);
   console.log("Doctors from Redux:", doctors);
@@ -25,23 +21,25 @@ const  SelectADoctor = () => {
   useEffect(() => {
     if (specialization) {
       console.log("Dispatching fetchDoctorsBySpecialization with:", specialization);
-
       dispatch(fetchDoctorsBySpecialization(specialization));
-
-
     }
   }, [dispatch, specialization]);
+
   useEffect(() => {
-  console.log("Doctors updated:", doctors);
-}, [doctors]);
+    console.log("Doctors updated:", doctors);
+  }, [doctors]);
+
   const handleDoctorClick = (doctor) => {
-    // פה תוכל להוסיף את הפעולה שברצונך לבצע אחרי הלחיצה
     console.log('נבחר רופא:', doctor.name);
+    setSelectedDoctor(doctor);
+    dispatch(setDoctorId(doctor.id)); 
+    dispatch(fetchAvailableAppointments(doctor.id));
   };
 
+
   if (loading) {
-  return <p>טוען רופאים...</p>;
-}
+    return <p>טוען רופאים...</p>;
+  }
 
   return (
     <Box
@@ -99,7 +97,29 @@ const  SelectADoctor = () => {
           </Card>
         ))}
       </Box>
+      {selectedDoctor && (
+        <Box sx={{ marginTop: '2rem', textAlign: 'center' }}>
+          <Typography variant="h5" sx={{ color: '#003d5b', fontWeight: 'bold' }}>
+            בחרת את הרופא: {selectedDoctor.name}
+          </Typography>
+          <Button
+            variant="contained"
+            sx={{
+              marginTop: '1rem',
+              backgroundColor: '#1976d2',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#1565c0',
+              },
+            }}
+            onClick={() => navigate('/MakeAnAppointment/SelectDate')}
+          >
+            המשך לרישום
+          </Button>
+        </Box>
+      )}
     </Box>
+
   );
 };
 
