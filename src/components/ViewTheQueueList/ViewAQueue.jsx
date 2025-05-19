@@ -2,13 +2,17 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, Collapse, Box, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { useDispatch } from 'react-redux';
+import { fetchdeleteAnAppointment} from '../../redux/thunk/appointmentsthunk';
 
 const ViewAQueue = ({ queue }) => {
     const [showDetails, setShowDetails] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-
-    const handleCancelAppointment = () => {
+const dispatch=useDispatch();
+    const handleCancelAppointment = async () => {
         // כאן תוכל לשלב קריאה ל-Redux או API
+        await dispatch(fetchdeleteAnAppointment(queue));
+
         console.log('תור בוטל:', queue.id);
         setOpenDialog(false);
     };
@@ -17,10 +21,7 @@ const ViewAQueue = ({ queue }) => {
         <Card sx={{ width: '90%', maxWidth: 600, boxShadow: 4, borderRadius: 3, backgroundColor: '#ffffff' }}>
             <CardContent>
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Typography sx={{ fontWeight: 'bold', display: 'inline', marginRight: 1 }}>יום:</Typography>
-                        <Typography sx={{ display: 'inline' }}>{queue.day}</Typography>
-                    </Box>
+
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography sx={{ fontWeight: 'bold', display: 'inline', marginRight: 1 }}>תאריך:</Typography>
@@ -29,7 +30,7 @@ const ViewAQueue = ({ queue }) => {
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography sx={{ fontWeight: 'bold', display: 'inline', marginRight: 1 }}>שעה:</Typography>
-                        <Typography sx={{ display: 'inline' }}>{queue.time}</Typography>
+                        <Typography sx={{ display: 'inline' }}>{queue.hour}</Typography>
                     </Box>
                 </Box>
 

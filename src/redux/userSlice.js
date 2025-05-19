@@ -1,40 +1,4 @@
-// import { createSlice } from "@reduxjs/toolkit";
-// import { checkClient } from "./thunk";
 
-// const clientSlice = createSlice({
-//   name: "client",
-//   initialState: {
-//     id: null,
-//     status: "idle", // idle | loading | succeeded | failed
-//     error: null, // Error message if needed
-//   },
-//   reducers: {
-//     clearClientData: (state) => {
-//       state.id = null;
-//       state.status = "idle";
-//       state.error = null;
-//     },
-//   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(checkClient.pending, (state) => {
-//         state.status = "loading";
-//         state.error = null;
-//       })
-//       .addCase(checkClient.fulfilled, (state, action) => {
-//         state.status = "succeeded";
-//         state.id = action.payload.id; // Assuming payload contains an `id` field
-//       })
-//       .addCase(checkClient.rejected, (state, action) => {
-//         state.status = "failed";
-//         state.error = action.payload; // Store the error message
-//       });
-//   },
-// });
-
-// export const { clearClientData } = clientSlice.actions;
-
-// export default clientSlice.reducer;
 import { createSlice } from "@reduxjs/toolkit";
 import { checkClientExists, signUpClient } from "./thunk/userthunks";
 

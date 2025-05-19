@@ -1,29 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import ViewAQueue from './ViewAQueue';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchClientAppointments} from '../../redux/thunk/appointmentsthunk';
 
 const ViewTheQueueList = () => {
-  // נתוני תורים לדוגמה
-  const dummyQueues = [
-    {
-      id: 1,
-      type: 'בדיקת ראייה כללית',
-      date: '2025-05-12',
-      day: 'שני',
-      time: '14:30',
-      doctor: 'ד"ר יוסי כהן',
-      details: 'בדיקה יסודית של חדות ראייה, בדיקת עיניים כללית ואבחון בעיות פוטנציאליות',
-    },
-    {
-      id: 2,
-      type: 'ייעוץ עם מומחה',
-      date: '2025-05-20',
-      day: 'שלישי',
-      time: '10:00',
-      doctor: 'ד"ר מרים לוי',
-      details: 'פגישה עם מומחית למחלות עיניים מורכבות, כולל בדיקת רקמות וקרנית',
-    },
-  ];
+
+  const dispatch=useDispatch();
+  const user = useSelector((state) => state.user.user);
+  const dummyQueues =  useSelector((state) => state.appointments.userAppointments);
+
+
+useEffect(()=>{
+  if(user){
+  dispatch(fetchClientAppointments(user.id));
+  }
+},[dispatch,user])
+  
+
+  
 
   return (
     <Box sx={{ padding: '2rem', backgroundColor: '#f0f8ff', minHeight: '100vh' }}>

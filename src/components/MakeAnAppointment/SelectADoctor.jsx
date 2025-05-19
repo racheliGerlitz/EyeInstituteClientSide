@@ -15,22 +15,22 @@ const SelectADoctor = () => {
   const specialization = useSelector((state) => state.doctors.specialization);
   const loading = useSelector((state) => state.doctors.loading);
 
-  console.log("Specialization from Redux:", specialization);
-  console.log("Doctors from Redux:", doctors);
+  //console.log("Specialization from Redux:", specialization);
+ // console.log("Doctors from Redux:", doctors);
 
   useEffect(() => {
     if (specialization) {
-      console.log("Dispatching fetchDoctorsBySpecialization with:", specialization);
+      //console.log("Dispatching fetchDoctorsBySpecialization with:", specialization);
       dispatch(fetchDoctorsBySpecialization(specialization));
     }
   }, [dispatch, specialization]);
 
   useEffect(() => {
-    console.log("Doctors updated:", doctors);
+    //console.log("Doctors updated:", doctors);
   }, [doctors]);
 
   const handleDoctorClick = (doctor) => {
-    console.log('נבחר רופא:', doctor.name);
+    //console.log('נבחר רופא:', doctor.name);
     setSelectedDoctor(doctor);
     dispatch(setDoctorId(doctor.id)); 
     dispatch(fetchAvailableAppointments(doctor.id));

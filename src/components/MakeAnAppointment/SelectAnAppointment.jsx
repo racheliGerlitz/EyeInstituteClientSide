@@ -21,7 +21,7 @@ const SelectAnAppointment = () => {
   ];
   const handleCardClick = (appointment) => {
     setSelectedAppointment(appointment);
-    console.log('Selected appointment:', appointment.value);
+   // console.log('Selected appointment:', appointment.value);
     dispatch(setSpecialization(appointment.value)); 
    dispatch(fetchDoctorsBySpecialization(appointment.value));
   };

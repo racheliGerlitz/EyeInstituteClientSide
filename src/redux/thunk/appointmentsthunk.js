@@ -15,3 +15,43 @@ export const fetchAvailableAppointments = createAsyncThunk(
   }
 );
 
+export const fetchMakeAnAppintment = createAsyncThunk(
+  'appointments/fetchMakeAnAppintment',
+  async ({ clientId, appointment }, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/Appointment/${clientId}`, JSON.stringify(appointment), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      
+      return response.data // List of available appointments
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Failed to make an appointment');
+    }
+  }
+);
+
+export const fetchClientAppointments = createAsyncThunk(
+  'appointments/fetchClientAppointments',
+  async (clientId, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/Appointment/ClientAppointments/${clientId}`);
+      return response.data.$values; // List of available appointments
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Failed to fetch appointments');
+    }
+  }
+);
+
+export const fetchdeleteAnAppointment = createAsyncThunk(
+  'appointments/fetchdeleteAnAppointment',
+  async (appointment, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`/Appointment/deleteAppointment`,appointment);
+      return response.data; // List of available appointments
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Failed to fetch appointments');
+    }
+  }
+);
