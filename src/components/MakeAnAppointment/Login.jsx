@@ -13,31 +13,41 @@ const Login = ({ onLoginSuccess }) => {
   const dispatch = useDispatch();
   const { status, error } = useSelector((state) => state.user); // Access Redux state
   const navigate = useNavigate();
+ const handleLogin = async () => {
+  try {
+    const doctorResult = await dispatch(fetchDoctorsById(id)).unwrap();
+    console.log("doctor", doctorResult);
+    onLoginSuccess(null);
+    navigate("/Login/WellcomeDoctor");
+  } catch (err) {
+    console.log("API Result error:", err);
+    // נניח ש- err הוא אובייקט Error או מחרוזת
+    const errMsg = err?.message || err;
 
+    if (typeof errMsg === 'string' && errMsg.includes('doctor does not exist')) {
+      try {
+        const clientResult = await dispatch(checkClientExists(id)).unwrap();
+        if (clientResult) {
+          console.log("Client found:", clientResult);
+          onLoginSuccess(clientResult.id);
+           localStorage.setItem("user", JSON.stringify(clientResult));
 
-
-  const handleLogin = async () => {
-    try {
-      const result1 = await dispatch(fetchDoctorsById(id)).unwrap();
-      console.log("doctor", result1);
-      onLoginSuccess(null);
-      navigate("/Login/WellcomeDoctor");
-    } catch (err) {
-      console.log("API Result:", err);
-      if (err === 'doctor does not exist.') {
-          const result = await dispatch(checkClientExists(id)).unwrap();
-          console.log("API Result:", result);
-          if (result) {
-            console.log("API Result:", result);
-            onLoginSuccess(result.id);
-            navigate("/Login/Wellcome");
-          }
-         else  {
+          navigate("/Login/Wellcome");
+        } else {
+          console.log("Client not found, redirecting to SignUp");
           navigate("/Login/SignUp");
         }
-      } 
+      } catch (clientErr) {
+        console.log("Error checking client existence:", clientErr);
+        navigate("/Login/SignUp");
+      }
+    } else {
+      // שגיאה אחרת - אפשר להציג הודעה או טיפול אחר
+      console.log("Unhandled error:", err);
     }
-  };
+  }
+};
+
   
   return (
     <Box

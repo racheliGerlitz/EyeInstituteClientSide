@@ -3,16 +3,21 @@ import { createSlice } from "@reduxjs/toolkit";
 import { checkClientExists, signUpClient } from "./thunk/userthunks";
 
 const userSlice = createSlice({
+  
   name: "user",
   initialState: {
-    user: null, // Stores full client details
-    status: "idle", // Tracks API call status
-    error: null, // Stores error messages
+    user: null, 
+    status: "idle", 
+    error: null,
   },
   reducers: {
     setUser: (state) => {
       state.user = null;
   },
+  logout: (state) => {
+  state.user = null;
+},
+
   },
   extraReducers: (builder) => {
     builder
@@ -43,6 +48,6 @@ const userSlice = createSlice({
       });
   },
 });
-export const { setUser } =  userSlice.actions;
+export const { setUser,logout } =  userSlice.actions;
 
 export default userSlice.reducer;

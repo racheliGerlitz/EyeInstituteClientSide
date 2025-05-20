@@ -5,9 +5,10 @@ import { signUpClient } from "../../redux/thunk/userthunks";
 import { Card, CardContent, TextField, Button, Typography, Checkbox, FormControlLabel } from "@mui/material";
 import { Box } from "@mui/system";
 import { useNavigate } from "react-router-dom";
+import { Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 
 const SignUp = ({ onSignUpSuccess }) => {
-  const [client, setClient] = useState({ 
+  const [client, setClient] = useState({
     id: "",
     name: "",
     age: "",
@@ -18,17 +19,17 @@ const SignUp = ({ onSignUpSuccess }) => {
     email: "",
     backgroundDiseases: false,
     healthInsurance: "",
-    });
-    
-    const [address, setAdress] = useState(
-     {
-    city:"",
-    street:"",
-    houseNumber:""
-    }
-    );
+  });
 
-  
+  const [address, setAdress] = useState(
+    {
+      city: "",
+      street: "",
+      houseNumber: ""
+    }
+  );
+
+
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const dispatch = useDispatch();
@@ -52,14 +53,16 @@ const SignUp = ({ onSignUpSuccess }) => {
 
 
   const handleSubmit = async (e) => {
-    const newUser={client,address};
+    const newUser = { client, address };
     e.preventDefault();
     try {
       const result = await dispatch(signUpClient(newUser)).unwrap();
       alert("Registration successful!");
-      setUserDetails(result); 
+      dispatch(setUser(result));
+      localStorage.setItem("user", JSON.stringify(result));
+      navigate("/Login/Wellcome");
+      setUserDetails(result);
       onSignUpSuccess(result.id);
-      navigate("/makeAnAppointment/SelectAnAppointment");
     } catch (err) {
       setError("Registration failed. Please try again.");
     }
@@ -166,15 +169,24 @@ const SignUp = ({ onSignUpSuccess }) => {
               }
               label="מחלות רקע"
             />
-            <TextField
-              label="קופת חולים"
-              variant="outlined"
-              fullWidth
-              name="healthInsurance"
-              value={client.healthInsurance}
-              onChange={handleChangeClient}
-              sx={{ marginBottom: "1.5rem" }}
-            />
+            <FormControl fullWidth sx={{ marginBottom: "1.5rem" }}>
+              <InputLabel id="healthInsurance-label">קופת חולים</InputLabel>
+              <Select
+                labelId="healthInsurance-label"
+                id="healthInsurance"
+                name="healthInsurance"
+                value={client.healthInsurance}
+                onChange={handleChangeClient}
+                label="קופת חולים"
+              >
+                <MenuItem value="כללית">כללית</MenuItem>
+                <MenuItem value="מאוחדת">מאוחדת</MenuItem>
+                <MenuItem value="מכבי">מכבי</MenuItem>
+                <MenuItem value="לאומית">לאומית</MenuItem>
+              </Select>
+            </FormControl>
+
+
             <TextField
               label="עיר"
               variant="outlined"
@@ -184,7 +196,7 @@ const SignUp = ({ onSignUpSuccess }) => {
               onChange={handleChangeAddress}
               sx={{ marginBottom: "1.5rem" }}
             />
-             <TextField
+            <TextField
               label="רחוב"
               variant="outlined"
               fullWidth
@@ -193,7 +205,7 @@ const SignUp = ({ onSignUpSuccess }) => {
               onChange={handleChangeAddress}
               sx={{ marginBottom: "1.5rem" }}
             />
-             <TextField
+            <TextField
               label="מספר בנין"
               variant="outlined"
               fullWidth

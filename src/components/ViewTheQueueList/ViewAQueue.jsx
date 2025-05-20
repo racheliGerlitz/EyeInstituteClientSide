@@ -3,7 +3,8 @@ import { Card, CardContent, Typography, Button, Collapse, Box, Dialog, DialogTit
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchdeleteAnAppointment,fetchClientAppointments } from '../../redux/thunk/appointmentsthunk';
+import { fetchdeleteAnAppointment, fetchClientAppointments } from '../../redux/thunk/appointmentsthunk';
+import { format } from 'date-fns';
 
 const ViewAQueue = ({ queue }) => {
     const [showDetails, setShowDetails] = useState(false);
@@ -13,7 +14,7 @@ const ViewAQueue = ({ queue }) => {
     const handleCancelAppointment = async () => {
         await dispatch(fetchdeleteAnAppointment(queue));
         alert('תור בוטל:', queue.id);
-       await dispatch(fetchClientAppointments(user.id));
+        await dispatch(fetchClientAppointments(user.id));
         setOpenDialog(false);
     };
 
@@ -25,12 +26,16 @@ const ViewAQueue = ({ queue }) => {
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography sx={{ fontWeight: 'bold', display: 'inline', marginRight: 1 }}>תאריך:</Typography>
-                        <Typography sx={{ display: 'inline' }}>{queue.date}</Typography>
+                        <Typography variant="body1">
+                                           {format(queue.date, 'dd/MM/yyyy')}
+                                         </Typography>
                     </Box>
 
                     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Typography sx={{ fontWeight: 'bold', display: 'inline', marginRight: 1 }}>שעה:</Typography>
-                        <Typography sx={{ display: 'inline' }}>{queue.hour}</Typography>
+                        <Typography sx={{ display: 'inline' }}>
+                            {`${new Date(queue.date).getHours()}:${String(new Date(queue.date).getMinutes()).padStart(2, '0')}`}
+                        </Typography>
                     </Box>
                 </Box>
 

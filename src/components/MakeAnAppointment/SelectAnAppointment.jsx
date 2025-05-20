@@ -45,9 +45,6 @@ const SelectAnAppointment = () => {
           <Typography variant="h6" sx={{ color: '#003d5b' }}>
             שלום, {userDetails.name}!
           </Typography>
-          <Typography variant="body1" sx={{ color: '#003d5b' }}>
-            כתובת מייל: {userDetails.email}
-          </Typography>
         </Box>
       )   : (
         <p>לא נמצאו פרטי משתמש.</p>

@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography,Button } from '@mui/material';
+import { Card, CardContent, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDoctorsBySpecialization } from '../../redux/thunk/doctorsThunk';
-import {fetchAvailableAppointments} from '../../redux/thunk/appointmentsthunk';
-import {setDoctorId} from '../../redux/appointmentSlice';
+import { fetchAvailableAppointments } from '../../redux/thunk/appointmentsthunk';
+import { setDoctorId } from '../../redux/appointmentSlice';
 import { useNavigate } from 'react-router-dom';
+
 const SelectADoctor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,33 +15,31 @@ const SelectADoctor = () => {
   const doctors = useSelector((state) => state.doctors.doctors);
   const specialization = useSelector((state) => state.doctors.specialization);
   const loading = useSelector((state) => state.doctors.loading);
-  const [doctorsWithImages, setDoctorsWithImages] = useState([]); //
+  const [doctorsWithImages, setDoctorsWithImages] = useState([]);
 
   useEffect(() => {
-    const updatedDoctorsWithImages = doctors.map((doctor, index) => {
-      const imageUrl = `/images/doctors/${index}.png`;
-      console.log(`Image URL for ${doctor.name}:`, imageUrl); // ה-console.log כאן
+    // ממפה את הרופאים עם תמונה לפי שארית מזהה הרופא ב-10
+    const updatedDoctorsWithImages = doctors.map((doctor) => {
+      const imageIndex = Number(doctor.id) % 10;  // שארית חילוק ב-10
+      const imageUrl = `/images/doctors/${imageIndex}.png`;
+      //console.log(`Image URL for ${doctor.name}:`, imageUrl);
       return {
         ...doctor,
-        imageUrl: imageUrl,
+        imageUrl,
       };
     });
-    setDoctorsWithImages(updatedDoctorsWithImages); // עדכן את ה-state
+    setDoctorsWithImages(updatedDoctorsWithImages);
   }, [doctors]);
 
   useEffect(() => {
     if (specialization) {
-      //console.log("Dispatching fetchDoctorsBySpecialization with:", specialization);
       dispatch(fetchDoctorsBySpecialization(specialization));
     }
   }, [dispatch, specialization]);
 
- 
-
   const handleDoctorClick = (doctor) => {
-    //console.log('נבחר רופא:', doctor.name);
     setSelectedDoctor(doctor);
-    dispatch(setDoctorId(doctor.id)); 
+    dispatch(setDoctorId(doctor.id));
     dispatch(fetchAvailableAppointments(doctor.id));
   };
 
@@ -84,7 +83,6 @@ const SelectADoctor = () => {
             }}
             onClick={() => handleDoctorClick(doctor)}
           >
-          
             <CardContent
               sx={{
                 backgroundColor: 'rgba(0, 0, 0, 0.5)', // צבע כהה עם שקיפות ברקע
@@ -105,6 +103,7 @@ const SelectADoctor = () => {
           </Card>
         ))}
       </Box>
+
       {selectedDoctor && (
         <Box sx={{ marginTop: '2rem', textAlign: 'center' }}>
           <Typography variant="h5" sx={{ color: '#003d5b', fontWeight: 'bold' }}>
@@ -127,7 +126,6 @@ const SelectADoctor = () => {
         </Box>
       )}
     </Box>
-
   );
 };
 
