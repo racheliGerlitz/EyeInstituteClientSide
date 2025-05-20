@@ -13,3 +13,16 @@ export const fetchDoctorsBySpecialization = createAsyncThunk(
     }
   }
 );
+
+export const fetchDoctorsById = createAsyncThunk(
+  'appointments/fetchDoctorsById',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.get(`Doctor/check-doctor/${id}`);
+       return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || 'Failed to fetch doctors');
+    }
+  }
+);
+

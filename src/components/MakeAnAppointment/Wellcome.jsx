@@ -1,4 +1,9 @@
-const Wellcome = ({userDetails}) => {
+import { Card, CardContent,Typography} from '@mui/material';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+
+const Wellcome = () => {
+ const userDetails=useSelector((state)=>state.user.user);
     return (
        <Card sx={{ padding: "2rem", boxShadow: 3, borderRadius: "10px", backgroundColor: "#e3f2fd" }}>
             <CardContent>

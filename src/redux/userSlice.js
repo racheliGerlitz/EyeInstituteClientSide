@@ -9,7 +9,11 @@ const userSlice = createSlice({
     status: "idle", // Tracks API call status
     error: null, // Stores error messages
   },
-  reducers: {},
+  reducers: {
+    setUser: (state) => {
+      state.user = null;
+  },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(checkClientExists.pending, (state) => {
@@ -39,5 +43,6 @@ const userSlice = createSlice({
       });
   },
 });
+export const { setUser } =  userSlice.actions;
 
 export default userSlice.reducer;

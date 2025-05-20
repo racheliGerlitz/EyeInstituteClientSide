@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button, Collapse, Box, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { useDispatch } from 'react-redux';
-import { fetchdeleteAnAppointment} from '../../redux/thunk/appointmentsthunk';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchdeleteAnAppointment,fetchClientAppointments } from '../../redux/thunk/appointmentsthunk';
 
 const ViewAQueue = ({ queue }) => {
     const [showDetails, setShowDetails] = useState(false);
     const [openDialog, setOpenDialog] = useState(false);
-const dispatch=useDispatch();
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user);
     const handleCancelAppointment = async () => {
-        // כאן תוכל לשלב קריאה ל-Redux או API
         await dispatch(fetchdeleteAnAppointment(queue));
-
-        console.log('תור בוטל:', queue.id);
+        alert('תור בוטל:', queue.id);
+       await dispatch(fetchClientAppointments(user.id));
         setOpenDialog(false);
     };
 

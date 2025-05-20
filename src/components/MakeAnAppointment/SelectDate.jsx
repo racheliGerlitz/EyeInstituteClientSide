@@ -9,9 +9,9 @@ const SelectDate = () => {
   const user = useSelector((state) => state.user.user);
   const dates = useSelector((state) => state.appointments.appointments);
   const doctorid = useSelector((state) => state.appointments.doctorid);
-  
-  const appointmentDetails=useSelector((state)=>state.appointment.appointments);
-
+ const [showAppintment,setShowAppintment]=useState(false);
+  const appointmentDetails=useSelector((state)=>state.appointments.appointments);
+console.log(appointmentDetails);
   useEffect(() => {
     if (doctorid) {
       dispatch(fetchAvailableAppointments(doctorid));
@@ -19,6 +19,7 @@ const SelectDate = () => {
   }, [dispatch, doctorid]);
 
   const handleDateClick = async (date) => {
+    setShowAppintment(true);
      await dispatch(fetchMakeAnAppintment({
       clientId: user.id,
       appointment: {
@@ -53,36 +54,36 @@ const SelectDate = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(dates) && dates.map((date, index) => (
-              <TableRow key={index} sx={{ '&:hover': { backgroundColor: '#f1f1f1' } }}>
-                <TableCell align="center">
-                  <Typography variant="body1">
-                    {format(date.date, 'dd/MM/yyyy')}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center">
-                  <Box>
-                    <Typography
-                      key={date.id}
-                      variant="body2"
-                      sx={{
-                        color: '#1976d2',
-                        cursor: 'pointer',
-                        '&:hover': { textDecoration: 'underline' },
-                      }}
-                      onClick={() => handleDateClick(date)}
-                    >
-                      {date.hour}
-                    </Typography>
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+  {Array.isArray(dates) && dates.map((date, index) => (
+    <TableRow key={index} sx={{ '&:hover': { backgroundColor: '#f1f1f1' } }}>
+      <TableCell align="center">
+        <Typography variant="body1">
+          {format(date.date, 'dd/MM/yyyy')}
+        </Typography>
+      </TableCell>
+      <TableCell align="center">
+        <Box>
+          <Typography
+            key={date.id}
+            variant="body2"
+            sx={{
+              color: '#1976d2',
+              cursor: 'pointer',
+              '&:hover': { textDecoration: 'underline' },
+            }}
+            onClick={() => handleDateClick(date)}
+          >
+            {`${new Date(date.date).getHours()}:${String(new Date(date.date).getMinutes()).padStart(2, '0')}`} {/* שליפת השעה והדקות */}
+          </Typography>
+        </Box>
+      </TableCell>
+    </TableRow>
+  ))}
+</TableBody>
+
         </Table>
       </TableContainer>
-
-      {appointmentDetails && (
+      {showAppintment && (
         <Card sx={{ marginTop: '2rem', padding: '1rem', backgroundColor: '#e3f2fd' }}>
           <CardContent>
             <Typography variant="h6">

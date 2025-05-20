@@ -57,8 +57,8 @@ const SignUp = ({ onSignUpSuccess }) => {
     try {
       const result = await dispatch(signUpClient(newUser)).unwrap();
       alert("Registration successful!");
-      setUserDetails(result); // Store user details in state
-      onSignUpSuccess(result.id); // Pass the client ID to the parent or global state
+      setUserDetails(result); 
+      onSignUpSuccess(result.id);
       navigate("/makeAnAppointment/SelectAnAppointment");
     } catch (err) {
       setError("Registration failed. Please try again.");

@@ -8,7 +8,7 @@ export const fetchAvailableAppointments = createAsyncThunk(
   async (doctorId, { rejectWithValue }) => {
     try {
       const response = await api.get(`/Appointment/appointments/${doctorId}`);
-      return response.data.$values; // List of available appointments
+      return response.data.$values; 
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch appointments');
     }
@@ -48,7 +48,7 @@ export const fetchdeleteAnAppointment = createAsyncThunk(
   'appointments/fetchdeleteAnAppointment',
   async (appointment, { rejectWithValue }) => {
     try {
-      const response = await api.get(`/Appointment/deleteAppointment`,appointment);
+      const response = await api.put(`/Appointment/deleteAppointment`,appointment);
       return response.data; // List of available appointments
     } catch (error) {
       return rejectWithValue(error.response?.data || 'Failed to fetch appointments');

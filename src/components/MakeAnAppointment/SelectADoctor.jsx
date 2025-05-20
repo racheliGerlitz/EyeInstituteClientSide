@@ -14,9 +14,19 @@ const SelectADoctor = () => {
   const doctors = useSelector((state) => state.doctors.doctors);
   const specialization = useSelector((state) => state.doctors.specialization);
   const loading = useSelector((state) => state.doctors.loading);
+  const [doctorsWithImages, setDoctorsWithImages] = useState([]); //
 
-  //console.log("Specialization from Redux:", specialization);
- // console.log("Doctors from Redux:", doctors);
+  useEffect(() => {
+    const updatedDoctorsWithImages = doctors.map((doctor, index) => {
+      const imageUrl = `/images/doctors/${index}.png`;
+      console.log(`Image URL for ${doctor.name}:`, imageUrl); // ה-console.log כאן
+      return {
+        ...doctor,
+        imageUrl: imageUrl,
+      };
+    });
+    setDoctorsWithImages(updatedDoctorsWithImages); // עדכן את ה-state
+  }, [doctors]);
 
   useEffect(() => {
     if (specialization) {
@@ -25,9 +35,7 @@ const SelectADoctor = () => {
     }
   }, [dispatch, specialization]);
 
-  useEffect(() => {
-    //console.log("Doctors updated:", doctors);
-  }, [doctors]);
+ 
 
   const handleDoctorClick = (doctor) => {
     //console.log('נבחר רופא:', doctor.name);
@@ -35,7 +43,6 @@ const SelectADoctor = () => {
     dispatch(setDoctorId(doctor.id)); 
     dispatch(fetchAvailableAppointments(doctor.id));
   };
-
 
   if (loading) {
     return <p>טוען רופאים...</p>;
@@ -54,7 +61,7 @@ const SelectADoctor = () => {
       </Typography>
 
       <Box display="flex" flexWrap="wrap" justifyContent="center">
-        {Array.isArray(doctors) && doctors.map((doctor) => (
+        {Array.isArray(doctorsWithImages) && doctorsWithImages.map((doctor) => (
           <Card
             key={doctor.id}
             sx={{
@@ -77,6 +84,7 @@ const SelectADoctor = () => {
             }}
             onClick={() => handleDoctorClick(doctor)}
           >
+          
             <CardContent
               sx={{
                 backgroundColor: 'rgba(0, 0, 0, 0.5)', // צבע כהה עם שקיפות ברקע

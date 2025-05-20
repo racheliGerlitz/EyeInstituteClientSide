@@ -18,21 +18,25 @@ useEffect(()=>{
 },[dispatch,user])
   
 
-  
+return (
+  <Box sx={{ padding: '2rem', backgroundColor: '#f0f8ff', minHeight: '100vh' }}>
+    <Typography variant="h4" sx={{ textAlign: 'center', color: '#003d5b', fontWeight: 'bold', marginBottom: '2rem' }}>
+      רשימת התורים שלך
+    </Typography>
 
-  return (
-    <Box sx={{ padding: '2rem', backgroundColor: '#f0f8ff', minHeight: '100vh' }}>
-      <Typography variant="h4" sx={{ textAlign: 'center', color: '#003d5b', fontWeight: 'bold', marginBottom: '2rem' }}>
-        רשימת התורים שלך
-      </Typography>
-
-      <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
-        {dummyQueues.map(queue => (
+    <Box display="flex" flexDirection="column" alignItems="center" gap={3}>
+      {dummyQueues.length > 0 ? (
+        dummyQueues.map(queue => (
           <ViewAQueue key={queue.id} queue={queue} />
-        ))}
-      </Box>
+        ))
+      ) : (
+        <Typography variant="h6" sx={{ textAlign: 'center', color: '#666', marginTop:'8%'}}>
+          אין תורים זמינים
+        </Typography>
+      )}
     </Box>
-  );
-};
+  </Box>
+   
+  )};
 
 export default ViewTheQueueList;

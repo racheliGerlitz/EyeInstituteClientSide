@@ -51,7 +51,7 @@ const appointmentSlice = createSlice({
         })
         .addCase(fetchClientAppointments.fulfilled, (state, action) => {
           state.loading = false;
-          state.userAppointments = action.payload;
+          state.userAppointments = action.payload.length > 0 ? action.payload : [];
         })
         .addCase(fetchClientAppointments.rejected, (state, action) => {
           state.loading = false;

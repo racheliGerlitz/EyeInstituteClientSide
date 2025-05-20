@@ -12,12 +12,12 @@ const SelectAnAppointment = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const appointmentOptions = [
-    { id: 1, title: 'בדיקת ראייה כללית', imageUrl: '/images/eye_exam.jpg' ,value:"אופטומטריסט"},
-    { id: 2, title: 'בדיקת התאמה לפני ניתוחי עיניים', imageUrl: '/images/eye_surgery.jpg',value:"אופטומטריסט" },
-    { id: 3, title: 'טיפולים שונים בעיניים – דלקות, יובש, גלאוקומה ועוד', imageUrl: '/images/eye_treatment.jpg',value:"רופא" },
-    { id: 4, title: 'ייעוץ עם מומחה', imageUrl: '/images/expert_advice.jpg' ,value:"רופא"},
-    { id: 5, title: 'ניתוחי קטרקט', imageUrl: '/images/cataract_surgery.jpg',value:"קטרקט" },
-    { id: 6, title: 'ניתוחי לייזר להסרת משקפיים', imageUrl: '/images/laser_surgery.jpg',value:"לייזר" }
+    { id: 1, title: 'בדיקת ראייה כללית', imageUrl: '/images/בדיקת ראיה.jpg' ,value:"אופטומטריסט"},
+    { id: 2, title: 'בדיקת התאמה לפני ניתוחי עיניים', imageUrl: '/images/רפואה (49).jpg',value:"אופטומטריסט" },
+    { id: 3, title: 'טיפולים שונים בעיניים – דלקות, יובש, גלאוקומה ועוד', imageUrl: '/images/הרכבת עדשות.jpg',value:"רופא" },
+    { id: 4, title: 'ייעוץ עם מומחה', imageUrl: '/images/57.jpg' ,value:"רופא"},
+    { id: 5, title: 'ניתוחי קטרקט', imageUrl: '/images/מכשיר בדיקת ראיה.jpg',value:"קטרקט" },
+    { id: 6, title: 'ניתוחי לייזר להסרת משקפיים', imageUrl: '/images/משקפיים (2).jpg',value:"לייזר" }
   ];
   const handleCardClick = (appointment) => {
     setSelectedAppointment(appointment);

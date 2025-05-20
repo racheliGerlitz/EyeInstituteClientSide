@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchDoctorsBySpecialization } from "./thunk/doctorsThunk";
+import { fetchDoctorsBySpecialization,fetchDoctorsById } from "./thunk/doctorsThunk";
 const doctorsSlice = createSlice({
     name: 'doctors',
     initialState: {
@@ -7,12 +7,12 @@ const doctorsSlice = createSlice({
       loading: false,
       error: null,
       specialization: null,
+      currentDoctor:null
     },
     reducers: {
         setSpecialization: (state, action) => {
             state.specialization = action.payload;
         },
-
     },
     extraReducers: (builder) => {
       // Handle fetchDoctorsBySpecialization
@@ -28,6 +28,19 @@ const doctorsSlice = createSlice({
           state.doctors = action.payload;
         })
         .addCase(fetchDoctorsBySpecialization.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload;
+        })
+
+        .addCase(fetchDoctorsById.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(fetchDoctorsById.fulfilled, (state, action) => {
+          state.loading = false;
+          state.currentDoctor = action.payload;
+        })
+        .addCase(fetchDoctorsById.rejected, (state, action) => {
           state.loading = false;
           state.error = action.payload;
         });
