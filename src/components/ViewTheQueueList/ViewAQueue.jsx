@@ -11,13 +11,14 @@ const ViewAQueue = ({ queue }) => {
     const [openDialog, setOpenDialog] = useState(false);
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user.user);
+    const title=useSelector(state=>state.appointments.titleAppointment);
     const handleCancelAppointment = async () => {
         await dispatch(fetchdeleteAnAppointment(queue));
         alert('תור בוטל:', queue.id);
         await dispatch(fetchClientAppointments(user.id));
         setOpenDialog(false);
     };
-
+ 
     return (
         <Card sx={{ width: '90%', maxWidth: 600, boxShadow: 4, borderRadius: 3, backgroundColor: '#ffffff' }}>
             <CardContent>
@@ -76,8 +77,8 @@ const ViewAQueue = ({ queue }) => {
 
                 <Collapse in={showDetails}>
                     <Box sx={{ marginTop: 2 }}>
-                        <Typography><strong>רופא:</strong> {queue.doctor}</Typography>
-                        <Typography><strong>פירוט:</strong> {queue.details}</Typography>
+                        <Typography><strong>רופא:</strong> name</Typography>
+                        <Typography><strong>פירוט:</strong> {title}</Typography>
                     </Box>
                 </Collapse>
 

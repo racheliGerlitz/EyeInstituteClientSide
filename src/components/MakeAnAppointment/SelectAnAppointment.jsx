@@ -3,6 +3,7 @@ import { Card, CardContent, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import {setSpecialization} from '../../redux/doctorsSlice';
+import {setTitleAppointment} from '../../redux/appointmentSlice';
 import { useNavigate } from 'react-router-dom';
 import { fetchDoctorsBySpecialization } from '../../redux/thunk/doctorsThunk'; // Import the action to fetch doctors
 
@@ -24,6 +25,7 @@ const SelectAnAppointment = () => {
    // console.log('Selected appointment:', appointment.value);
     dispatch(setSpecialization(appointment.value)); 
    dispatch(fetchDoctorsBySpecialization(appointment.value));
+   dispatch(setTitleAppointment(appointment.title));
   };
 
 

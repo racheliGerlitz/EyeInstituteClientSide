@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDoctorsBySpecialization } from '../../redux/thunk/doctorsThunk';
+import { fetchDoctorsBySpecialization,fetchDoctorsById } from '../../redux/thunk/doctorsThunk';
 import { fetchAvailableAppointments } from '../../redux/thunk/appointmentsthunk';
 import { setDoctorId } from '../../redux/appointmentSlice';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +41,7 @@ const SelectADoctor = () => {
     setSelectedDoctor(doctor);
     dispatch(setDoctorId(doctor.id));
     dispatch(fetchAvailableAppointments(doctor.id));
+    dispatch(fetchDoctorsById(doctor));
   };
 
   if (loading) {

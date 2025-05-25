@@ -5,6 +5,7 @@ const appointmentSlice = createSlice({
     initialState: {
       appointments: [],
       userAppointments:[],
+      titleAppointment:null,
       doctorid: null,
       loading: false,
       error: null,
@@ -12,6 +13,9 @@ const appointmentSlice = createSlice({
     reducers: {
         setDoctorId: (state, action) => {
           state.doctorid = action.payload;
+        },
+        setTitleAppointment: (state, action) => {
+          state.titleAppointment = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -73,5 +77,5 @@ const appointmentSlice = createSlice({
         
     },
   });
-  export const { setDoctorId } = appointmentSlice.actions;
+  export const { setDoctorId,setTitleAppointment } = appointmentSlice.actions;
   export default appointmentSlice.reducer;
